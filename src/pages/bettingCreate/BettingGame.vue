@@ -5,7 +5,7 @@
     <span>Grupo A</span>
     <div class="q-pa-md">
       <div class="row">
-        <div class="q-pa-md">
+        <div class="col-7 q-pa-md">
           <q-table
           dense
           :rows="rows"
@@ -13,7 +13,12 @@
           row-key="name"
           />
         </div>
-        <div class="column q-gutter-y-md no-wrap">
+        <div class="col-5 column q-gutter-y-md no-wrap">
+          <div class="col-12 row justify-between items-center" style="max-height:2vw">
+            <q-icon name="mdi-chevron-left" @click="'e'" size="2.5rem"/>
+            <span class="text-h6">1ª RODADA</span>
+            <q-icon name="mdi-chevron-right" @click="'e'" size="2.5rem"/>
+          </div>
           <PB-card-game :homeTeamInitials="'bra'" :awayTeamInitials="'Arg'"/>
           <PB-card-game :homeTeamInitials="'bra'" :awayTeamInitials="'Arg'"/>
         </div>
@@ -37,7 +42,7 @@ export default defineComponent({
   {
     name: 'name',
     required: true,
-    label: 'Dessert (100g serving)',
+    label: 'S',
     align: 'left',
     field: row => row.name,
     format: val => `${val}`,
