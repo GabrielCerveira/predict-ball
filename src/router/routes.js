@@ -2,7 +2,17 @@ const routes = [
   {
     path: "/",
     component: () => import("layouts/LoginLayout.vue"),
-    children: [{ path: "", component: () => import("pages/authentication/LoginPage.vue") }],
+    children: [{ path: "",name: 'login', component: () => import("pages/authentication/LoginPage.vue") }],
+  },
+  {
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: 'bettingGame', name: 'bettingGame', component: () => import('pages/bettingCreate/bettingGame.vue') },
+    ],
+    //meta: {
+    //  requiresAuth: true
+    //}
   },
 
   // Always leave this as last one,
