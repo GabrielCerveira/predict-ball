@@ -1,173 +1,104 @@
 <template>
-  <div>
+  <div class="bg-dark text-white">
     <span class="text-h4 text-center">COPA DO MUNDO</span>
-    <q-separator size="2px"/>
-    <span>Grupo A</span>
-    <div class="q-pa-md">
-      <div class="row">
-        <div class="col-7 q-pa-md">
-          <q-table
-          dense
-          :rows="rows"
-          :columns="columns"
-          row-key="name"
-          />
-        </div>
-        <div class="col-5 column q-gutter-y-md no-wrap">
-          <div class="col-12 row justify-between items-center" style="max-height:2vw">
-            <q-icon name="mdi-chevron-left" @click="'e'" size="2.5rem"/>
-            <span class="text-h6">1ª RODADA</span>
-            <q-icon name="mdi-chevron-right" @click="'e'" size="2.5rem"/>
-          </div>
-          <PB-card-game :homeTeamInitials="'bra'" :awayTeamInitials="'Arg'"/>
-          <PB-card-game :homeTeamInitials="'bra'" :awayTeamInitials="'Arg'"/>
-        </div>
+    <q-separator size="2px" />
+    <div v-for="match in tableMatch" :key="match.title">
+      <span>{{ match.title }}</span>
+      <div class="q-pa-md">
+        <PB-card-table :tableMatch="match" />
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import PBCardGame from "src/components/generic/PBCardGame.vue"
-import { defineComponent } from "vue";
+import PBCardTable from "src/components/generic/PBCardTable.vue";
 
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "BettingGame",
-  components: { PBCardGame },
-  setup(){
-
-    const columns = [
-  {
-    name: 'name',
-    required: true,
-    label: 'S',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
+  components: { PBCardTable },
+  setup() {
+    const tableMatch = [
+      {
+        title: "grupo A",
+        rodadas: [
+          {
+            matches: [
+              {
+                homeTeam: "Suiça",
+                homeTeamInitials: "che",
+                awayTeam: "camarões",
+                awayTeamInitials: "cmr",
+                status: 1,
+                dateTime: "24/11/2022",
+                stadium: "AL JANOUB",
+              },
+              {
+                homeTeam: "brasil",
+                homeTeamInitials: "bra",
+                awayTeam: "servia",
+                awayTeamInitials: "srb",
+                status: 1,
+                dateTime: "24/11/2022",
+                stadium: "lusail",
+              },
+            ],
+          },
+          {
+            matches: [
+              {
+                homeTeam: "camarões",
+                homeTeamInitials: "cmr",
+                awayTeam: "servia",
+                awayTeamInitials: "srb",
+                status: 1,
+                dateTime: "28/11/2022",
+                stadium: "AL JANOUB",
+              },
+              {
+                homeTeam: "brasil",
+                homeTeamInitials: "bra",
+                awayTeam: "suiça",
+                awayTeamInitials: "che",
+                status: 1,
+                dateTime: "28/11/2022",
+                stadium: "stadium 974",
+              },
+            ],
+          },
+          {
+            matches: [
+              {
+                homeTeam: "camarões",
+                homeTeamInitials: "cmr",
+                awayTeam: "brasil",
+                awayTeamInitials: "bra",
+                status: 1,
+                dateTime: "02/12/2022",
+                stadium: "lusail",
+              },
+              {
+                homeTeam: "servia",
+                homeTeamInitials: "srb",
+                awayTeam: "suiça",
+                awayTeamInitials: "che",
+                status: 1,
+                dateTime: "02/12/2022",
+                stadium: "stadium 974",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    console.log(tableMatch);
+    return {
+      tableMatch,
+    };
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-]
-
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
-  },
-  {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%'
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%',
-    iron: '8%'
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%'
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%'
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%'
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%'
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%'
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%'
-  }
-]
-
-    return{
-      rows,
-      columns
-    }
-  }
-})
+});
 </script>
 
-<style>
-
-</style>
+<style></style>

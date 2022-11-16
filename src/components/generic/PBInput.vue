@@ -1,11 +1,11 @@
 <template>
   <q-input
-   :model="value"
-   :label="label"
-   :type="[type !== 'password' ? type : isPwd ? 'password' : 'text']"
+    :model="value"
+    :label="label"
+    :type="[type !== 'password' ? type : isPwd ? 'password' : 'text']"
   >
     <template v-slot:append>
-       <!--Templeate de senha-->
+      <!--Templeate de senha-->
       <q-icon
         v-if="type === 'password'"
         :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -18,7 +18,7 @@
         <q-popup-proxy transition-show="scale" transition-hide="scale">
           <q-date v-model="date">
             <div class="row items-center justify-end">
-               <q-btn v-close-popup label="Close" color="primary" flat />
+              <q-btn v-close-popup label="Close" color="primary" flat />
             </div>
           </q-date>
         </q-popup-proxy>
@@ -32,23 +32,24 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "PBinput",
   props: {
-    value:{
-      type: String
-    },
-    type:{
+    value: {
       type: String,
-      default: 'text'
+      Number,
     },
-    label:{
-      type:String
-    }
+    type: {
+      type: String,
+      default: "text",
+    },
+    label: {
+      type: String,
+    },
   },
-  setup(){
-    return{
-      isPwd: ref(true)
-    }
-  }
-})
+  setup() {
+    return {
+      isPwd: ref(true),
+    };
+  },
+});
 </script>
 
 <style>
