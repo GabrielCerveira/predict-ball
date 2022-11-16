@@ -4,11 +4,13 @@
     <div class="row justify-center">
       <div class="col-4 row q-gutter-xs justify-start">
         <span class="text-h6 text-uppercase">{{ homeTeamInitials }}</span>
+
         <q-img
           :src="urlflag + homeTeamInitials"
           class="card__flag"
-          :ratio="16 / 9"
+          ratio="16/9"
         />
+
         <PB-input
           class="card__input"
           input-class="text-center text-white"
@@ -94,7 +96,7 @@ export default defineComponent({
 }
 
 .card__flag {
-  width: 30%;
+  width: 25%;
   height: 67%;
 }
 </style>

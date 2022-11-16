@@ -1,12 +1,10 @@
 <template>
   <div class="bg-dark text-white">
-    <span class="text-h4 text-center">COPA DO MUNDO</span>
-    <q-separator size="2px" />
-    <div v-for="match in tableMatch" :key="match.title">
-      <span>{{ match.title }}</span>
-      <div class="q-pa-md">
-        <PB-card-table :tableMatch="match" />
-      </div>
+    <span class="text-h4 text-primary">COPA DO MUNDO</span>
+    <q-separator size="2px" color="primary" />
+    <div v-for="match in tableMatch" :key="match.title" class="q-pa-md">
+      <span class="text-uppercase">{{ match.title }}</span>
+      <PB-card-table :tableMatch="match" />
     </div>
   </div>
 </template>
@@ -31,7 +29,130 @@ export default defineComponent({
                 homeTeamInitials: "che",
                 awayTeam: "camarões",
                 awayTeamInitials: "cmr",
-                status: 1,
+                status: 2,
+                dateTime: "24/11/2022",
+                stadium: "AL JANOUB",
+                winner: "camarões",
+                homeTeamResult: {
+                  team: "suiça",
+                  goals: 2,
+                },
+                awayTeamResult: {
+                  team: "camarões",
+                  goals: 3,
+                },
+              },
+              {
+                homeTeam: "brasil",
+                homeTeamInitials: "bra",
+                awayTeam: "servia",
+                awayTeamInitials: "srb",
+                status: 2,
+                dateTime: "24/11/2022",
+                stadium: "lusail",
+                winner: "brasil",
+                homeTeamResult: {
+                  team: "brasil",
+                  goals: 4,
+                },
+                awayTeamResult: {
+                  team: "servia",
+                  goals: 0,
+                },
+              },
+            ],
+          },
+          {
+            matches: [
+              {
+                homeTeam: "camarões",
+                homeTeamInitials: "cmr",
+                awayTeam: "servia",
+                awayTeamInitials: "srb",
+                status: 3,
+                dateTime: "28/11/2022",
+                stadium: "AL JANOUB",
+                homeTeamResult: {
+                  team: "camarões",
+                  goals: 3,
+                },
+                awayTeamResult: {
+                  team: "servia",
+                  goals: 3,
+                },
+              },
+              {
+                homeTeam: "brasil",
+                homeTeamInitials: "bra",
+                awayTeam: "suiça",
+                awayTeamInitials: "che",
+                status: 2,
+                dateTime: "28/11/2022",
+                stadium: "stadium 974",
+                winner: "brasil",
+                homeTeamResult: {
+                  team: "brasil",
+                  goals: 3,
+                },
+                awayTeamResult: {
+                  team: "suiça",
+                  goals: 1,
+                },
+              },
+            ],
+          },
+          {
+            matches: [
+              {
+                homeTeam: "camarões",
+                homeTeamInitials: "cmr",
+                awayTeam: "brasil",
+                awayTeamInitials: "bra",
+                status: 2,
+                dateTime: "02/12/2022",
+                stadium: "lusail",
+                winner: "brasil",
+                homeTeamResult: {
+                  team: "camarões",
+                  goals: 0,
+                },
+                awayTeamResult: {
+                  team: "brasil",
+                  goals: 5,
+                },
+              },
+              {
+                homeTeam: "servia",
+                homeTeamInitials: "srb",
+                awayTeam: "suiça",
+                awayTeamInitials: "che",
+                status: 3,
+                dateTime: "02/12/2022",
+                stadium: "stadium 974",
+                homeTeamResult: {
+                  team: "servia",
+                  goals: 3,
+                },
+                awayTeamResult: {
+                  team: "suiça",
+                  goals: 3,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "grupo B",
+        rodadas: [
+          {
+            matches: [
+              {
+                homeTeam: "Suiça",
+                homeTeamInitials: "che",
+                awayTeam: "camarões",
+                awayTeamInitials: "cmr",
+                status: 0,
                 dateTime: "24/11/2022",
                 stadium: "AL JANOUB",
               },
@@ -40,7 +161,7 @@ export default defineComponent({
                 homeTeamInitials: "bra",
                 awayTeam: "servia",
                 awayTeamInitials: "srb",
-                status: 1,
+                status: 0,
                 dateTime: "24/11/2022",
                 stadium: "lusail",
               },
@@ -53,7 +174,7 @@ export default defineComponent({
                 homeTeamInitials: "cmr",
                 awayTeam: "servia",
                 awayTeamInitials: "srb",
-                status: 1,
+                status: 0,
                 dateTime: "28/11/2022",
                 stadium: "AL JANOUB",
               },
@@ -62,7 +183,7 @@ export default defineComponent({
                 homeTeamInitials: "bra",
                 awayTeam: "suiça",
                 awayTeamInitials: "che",
-                status: 1,
+                status: 0,
                 dateTime: "28/11/2022",
                 stadium: "stadium 974",
               },
@@ -75,7 +196,7 @@ export default defineComponent({
                 homeTeamInitials: "cmr",
                 awayTeam: "brasil",
                 awayTeamInitials: "bra",
-                status: 1,
+                status: 0,
                 dateTime: "02/12/2022",
                 stadium: "lusail",
               },
@@ -84,7 +205,7 @@ export default defineComponent({
                 homeTeamInitials: "srb",
                 awayTeam: "suiça",
                 awayTeamInitials: "che",
-                status: 1,
+                status: 0,
                 dateTime: "02/12/2022",
                 stadium: "stadium 974",
               },
@@ -99,6 +220,14 @@ export default defineComponent({
     };
   },
 });
+/*
+
+Status:
+0 = não disputada
+1 = em andamento
+2 = finalizado com vencedor
+3 = finalizado com empate
+*/
 </script>
 
 <style></style>

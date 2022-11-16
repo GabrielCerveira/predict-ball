@@ -66,7 +66,52 @@ export default defineComponent({
       }
     };
     handleDefinitionMatch();
-    console.log("console2", props.tableMatch.rodadas.length);
+
+    const handleGetEquipUnic = () => {
+      var home = new Set();
+      var away = new Set();
+      const team = ref([]);
+      /*team,
+        points,
+        games,
+        wins,
+        draws,
+        defeats,
+        goalsScored,
+        goalsConceded,
+        balance,*/
+
+      for (let round = 0; round < props.tableMatch.rodadas.length; round++) {
+        for (
+          let match = 0;
+          match < props.tableMatch.rodadas[round].matches.length;
+          match++
+        ) {
+          home.add(
+            props.tableMatch.rodadas[round].matches[
+              match
+            ].homeTeam.toLowerCase()
+          );
+
+          console.log(
+            "Results home",
+            props.tableMatch.rodadas[round].matches[match].homeTeamResult.team,
+            props.tableMatch.rodadas[round].matches[match].homeTeamResult.goals
+          );
+
+          away.add(
+            props.tableMatch.rodadas[round].matches[
+              match
+            ].awayTeam.toLowerCase()
+          );
+        }
+      }
+
+      return home;
+    };
+
+    console.log("teste handleget", handleGetEquipUnic());
+    console.log("console2", props.tableMatch);
     return {
       round,
       handleDefinitionMatch,
