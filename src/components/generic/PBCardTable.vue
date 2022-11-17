@@ -65,12 +65,14 @@ export default defineComponent({
         return;
       }
     };
+
     handleDefinitionMatch();
 
     const handleGetEquipUnic = () => {
       var home = new Set();
       var away = new Set();
-      const team = ref([]);
+      const teams = [];
+
       /*team,
         points,
         games,
@@ -87,31 +89,93 @@ export default defineComponent({
           match < props.tableMatch.rodadas[round].matches.length;
           match++
         ) {
-          home.add(
-            props.tableMatch.rodadas[round].matches[
-              match
-            ].homeTeam.toLowerCase()
-          );
+          if (
+            !home.has(
+              props.tableMatch.rodadas[round].matches[
+                match
+              ].homeTeam.toLowerCase()
+            )
+          ) {
+            //adiciona um valor unico na var home atraves do set
+            home.add(
+              props.tableMatch.rodadas[round].matches[
+                match
+              ].homeTeam.toLowerCase()
+            );
+            //Cria um objto no array teams
+            teams.push({
+              team: props.tableMatch.rodadas[round].matches[
+                match
+              ].homeTeam.toLowerCase(),
+            });
+          }
+          const pos = teams
+            .map((e) => e.team)
+            .indexOf(
+              props.tableMatch.rodadas[round].matches[
+                match
+              ].homeTeam.toLowerCase()
+            );
 
-          console.log(
-            "Results home",
-            props.tableMatch.rodadas[round].matches[match].homeTeamResult.team,
-            props.tableMatch.rodadas[round].matches[match].homeTeamResult.goals
-          );
+          ////
 
-          away.add(
-            props.tableMatch.rodadas[round].matches[
-              match
-            ].awayTeam.toLowerCase()
-          );
+          if (props.tableMatch.rodadas[round].matches[match].status === 0) {
+            if (teams[pos].points) {
+              (teams[pos].points = 0),
+                (teams[pos].games = 0),
+                (teams[pos].wins = 0),
+                (teams[pos].draws = 0),
+                (teams[pos].defeats = 0),
+                (teams[pos].goalsScored = 0);
+            } else {
+              (teams[pos].points = teams[pos].points + 0),
+                (teams[pos].games = teams[pos].games + 0),
+                (teams[pos].wins = teams[pos].wins + 0),
+                (teams[pos].draws = teams[pos].draws + 0),
+                (teams[pos].defeats = teams[pos].defeats + 0),
+                (teams[pos].goalsScored = teams[pos].goalsScored + 0);
+            }
+          } else {
+            teams[pos].games = teams[pos].games ? teams[pos].games + 1 : 1;
+
+            teams[pos].wins =
+              teams[pos].team ===
+              props.tableMatch.rodadas[round].matches[match].winner
+                ? teams[pos].win
+                  ? teams[pos].win + 1
+                  : 1
+                : teams[pos].win
+                ? teams[pos].win + 0
+                : 0;
+            console.log;
+            teams[pos].goalsScored = !teams[pos].goalsScored
+              ? props.tableMatch.rodadas[round].matches[match].homeTeamResult
+                  .goals
+              : teams[pos].goalsScored +
+                props.tableMatch.rodadas[round].matches[match].homeTeamResult
+                  .goals;
+
+            teams[pos].goalsConceded = !teams[pos].goalsConceded
+              ? props.tableMatch.rodadas[round].matches[match].awayTeamResult
+                  .goals
+              : teams[pos].goalsConceded +
+                props.tableMatch.rodadas[round].matches[match].awayTeamResult
+                  .goals;
+            console.log(
+              "teste win " + teams[pos].team,
+              teams[pos].team ===
+                props.tableMatch.rodadas[round].matches[match].winner,
+              teams[pos].win
+            );
+          }
         }
       }
 
-      return home;
+      return teams;
     };
 
     console.log("teste handleget", handleGetEquipUnic());
-    console.log("console2", props.tableMatch);
+
     return {
       round,
       handleDefinitionMatch,

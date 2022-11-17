@@ -57,7 +57,7 @@ export default defineComponent({
                 },
                 awayTeamResult: {
                   team: "servia",
-                  goals: 0,
+                  goals: 1,
                 },
               },
             ],
