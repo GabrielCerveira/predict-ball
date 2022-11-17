@@ -57,12 +57,6 @@ export default defineComponent({
         typeof props.tableMatch.rodadas[round.value - 1].matches != undefined
       ) {
         matches.value = props.tableMatch.rodadas[round.value - 1].matches;
-      } else {
-        console.log(
-          "typeof",
-          typeof props.tableMatch.rodadas[round.value - 1].matches
-        );
-        return;
       }
     };
 
@@ -73,11 +67,11 @@ export default defineComponent({
       var away = new Set();
       const teams = [];
 
-      /*team,
+      /*team!,
         points,
-        games,
-        wins,
-        draws,
+        games!,
+        wins!,
+        draw!-,
         defeats,
         goalsScored,
         goalsConceded,
@@ -89,26 +83,26 @@ export default defineComponent({
           match < props.tableMatch.rodadas[round].matches.length;
           match++
         ) {
-          if (
-            !home.has(
-              props.tableMatch.rodadas[round].matches[
-                match
-              ].homeTeam.toLowerCase()
-            )
-          ) {
-            //adiciona um valor unico na var home atraves do set
-            home.add(
-              props.tableMatch.rodadas[round].matches[
-                match
-              ].homeTeam.toLowerCase()
-            );
-            //Cria um objto no array teams
-            teams.push({
-              team: props.tableMatch.rodadas[round].matches[
-                match
-              ].homeTeam.toLowerCase(),
-            });
+          //
+          const array = [
+            props.tableMatch.rodadas[round].matches[
+              match
+            ].homeTeam.toLowerCase(),
+            props.tableMatch.rodadas[round].matches[
+              match
+            ].awayTeam.toLowerCase(),
+          ];
+          for (let index = 0; index < array.length; index++) {
+            if (!home.has(array[index])) {
+              //adiciona um valor unico na var home atraves do set
+              home.add(array[index]);
+              //Cria um objto no array teams
+              teams.push({
+                team: array[index],
+              });
+            }
           }
+
           const pos = teams
             .map((e) => e.team)
             .indexOf(
@@ -117,37 +111,65 @@ export default defineComponent({
               ].homeTeam.toLowerCase()
             );
 
+          const posAway = teams
+            .map((e) => e.team)
+            .indexOf(
+              props.tableMatch.rodadas[round].matches[
+                match
+              ].awayTeam.toLowerCase()
+            );
+
           ////
 
           if (props.tableMatch.rodadas[round].matches[match].status === 0) {
-            if (teams[pos].points) {
+            if (!teams[pos].points) {
               (teams[pos].points = 0),
                 (teams[pos].games = 0),
                 (teams[pos].wins = 0),
-                (teams[pos].draws = 0),
+                (teams[pos].draw = 0),
                 (teams[pos].defeats = 0),
                 (teams[pos].goalsScored = 0);
             } else {
               (teams[pos].points = teams[pos].points + 0),
                 (teams[pos].games = teams[pos].games + 0),
                 (teams[pos].wins = teams[pos].wins + 0),
-                (teams[pos].draws = teams[pos].draws + 0),
+                (teams[pos].draw = teams[pos].draw + 0),
                 (teams[pos].defeats = teams[pos].defeats + 0),
                 (teams[pos].goalsScored = teams[pos].goalsScored + 0);
             }
           } else {
-            teams[pos].games = teams[pos].games ? teams[pos].games + 1 : 1;
+            const array = [
+              props.tableMatch.rodadas[round].matches[
+                match
+              ].homeTeam.toLowerCase(),
+              props.tableMatch.rodadas[round].matches[
+                match
+              ].awayTeam.toLowerCase(),
+            ];
+            for (let index = 0; index < array.length; index++) {
+              const posTeam = teams.map((e) => e.team).indexOf(array[index]);
+              // adiciona as partidas jogadas pelos times
+              teams[posTeam].games = teams[posTeam].games
+                ? teams[posTeam].games + 1
+                : 1;
+              // adiciona as vitorias dos times
+              teams[posTeam].wins =
+                teams[posTeam].team ===
+                props.tableMatch.rodadas[round].matches[match].winner
+                  ? !teams[posTeam].wins
+                    ? 1
+                    : teams[posTeam].wins + 1
+                  : !teams[posTeam].wins
+                  ? 0
+                  : teams[posTeam].wins;
+              // adiciona os empates dos times
+              teams[posTeam].draw =
+                props.tableMatch.rodadas[round].matches[match].status === 3
+                  ? teams[posTeam].draw + 1
+                  : 0;
+            }
 
-            teams[pos].wins =
-              teams[pos].team ===
-              props.tableMatch.rodadas[round].matches[match].winner
-                ? teams[pos].win
-                  ? teams[pos].win + 1
-                  : 1
-                : teams[pos].win
-                ? teams[pos].win + 0
-                : 0;
-            console.log;
+            //Adiciona os gols marcados pelo time da casa
             teams[pos].goalsScored = !teams[pos].goalsScored
               ? props.tableMatch.rodadas[round].matches[match].homeTeamResult
                   .goals
@@ -155,18 +177,30 @@ export default defineComponent({
                 props.tableMatch.rodadas[round].matches[match].homeTeamResult
                   .goals;
 
+            //Adiciona os gols sofridos pelo time da casa
             teams[pos].goalsConceded = !teams[pos].goalsConceded
               ? props.tableMatch.rodadas[round].matches[match].awayTeamResult
                   .goals
               : teams[pos].goalsConceded +
                 props.tableMatch.rodadas[round].matches[match].awayTeamResult
                   .goals;
-            console.log(
-              "teste win " + teams[pos].team,
-              teams[pos].team ===
-                props.tableMatch.rodadas[round].matches[match].winner,
-              teams[pos].win
-            );
+
+            //
+            //Adiciona os gols marcados pelo time da casa
+            teams[posAway].goalsScored = !teams[posAway].goalsScored
+              ? props.tableMatch.rodadas[round].matches[match].awayTeamResult
+                  .goals
+              : teams[posAway].goalsScored +
+                props.tableMatch.rodadas[round].matches[match].awayTeamResult
+                  .goals;
+
+            //Adiciona os gols sofridos pelo time da casa
+            teams[posAway].goalsConceded = !teams[posAway].goalsConceded
+              ? props.tableMatch.rodadas[round].matches[match].homeTeamResult
+                  .goals
+              : teams[posAway].goalsConceded +
+                props.tableMatch.rodadas[round].matches[match].homeTeamResult
+                  .goals;
           }
         }
       }
