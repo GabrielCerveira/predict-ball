@@ -19,6 +19,7 @@
           dense
           :type="'number'"
           :disable="statusGame != 0"
+          v-model="bets.homeGoals"
         />
       </div>
 
@@ -33,6 +34,7 @@
           dense
           :type="'number'"
           :disable="statusGame != 0"
+          v-model="bets.awayGoals"
         />
         <q-img
           :src="urlflag + awayTeamInitials"
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import PBInput from "src/components/generic/PBInput.vue";
 
 export default defineComponent({
@@ -75,11 +77,13 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props) {
+  setup() {
     const urlflag = "https://countryflagsapi.com/svg/";
-    console.log("teste status", props.statusGame);
+    const bets = ref({});
+    console.log("bets", bets.value);
     return {
       urlflag,
+      bets,
     };
   },
 });

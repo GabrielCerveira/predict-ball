@@ -87,12 +87,8 @@ export default defineComponent({
         ) {
           //
           const array = [
-            props.tableMatch.rodadas[round].matches[
-              match
-            ].homeTeam.toLowerCase(),
-            props.tableMatch.rodadas[round].matches[
-              match
-            ].awayTeam.toLowerCase(),
+            props.tableMatch.rodadas[round].matches[match].homeTeam,
+            props.tableMatch.rodadas[round].matches[match].awayTeam,
           ];
           for (let index = 0; index < array.length; index++) {
             if (!home.has(array[index])) {
@@ -107,46 +103,32 @@ export default defineComponent({
 
           const pos = teams
             .map((e) => e.team)
-            .indexOf(
-              props.tableMatch.rodadas[round].matches[
-                match
-              ].homeTeam.toLowerCase()
-            );
+            .indexOf(props.tableMatch.rodadas[round].matches[match].homeTeam);
 
           const posAway = teams
             .map((e) => e.team)
-            .indexOf(
-              props.tableMatch.rodadas[round].matches[
-                match
-              ].awayTeam.toLowerCase()
-            );
+            .indexOf(props.tableMatch.rodadas[round].matches[match].awayTeam);
 
           ////
 
           if (props.tableMatch.rodadas[round].matches[match].status === 0) {
-            if (!teams[pos].points) {
-              (teams[pos].points = 0),
-                (teams[pos].games = 0),
-                (teams[pos].wins = 0),
-                (teams[pos].draw = 0),
-                (teams[pos].defeats = 0),
-                (teams[pos].goalsScored = 0);
+            if (!teams[pos].games) {
+              teams[pos].games = 0;
+              teams[pos].wins = 0;
+              teams[pos].draw = 0;
+              teams[pos].goalsScored = 0;
+              teams[pos].goalsConceded = 0;
             } else {
-              (teams[pos].points = teams[pos].points + 0),
-                (teams[pos].games = teams[pos].games + 0),
-                (teams[pos].wins = teams[pos].wins + 0),
-                (teams[pos].draw = teams[pos].draw + 0),
-                (teams[pos].defeats = teams[pos].defeats + 0),
-                (teams[pos].goalsScored = teams[pos].goalsScored + 0);
+              teams[pos].games = teams[pos].games + 0;
+              teams[pos].wins = teams[pos].wins + 0;
+              teams[pos].draw = teams[pos].draw + 0;
+              teams[pos].goalsScored = teams[pos].goalsScored + 0;
+              teams[pos].goalsConceded = teams[pos].goalsConceded + 0;
             }
           } else {
             const array = [
-              props.tableMatch.rodadas[round].matches[
-                match
-              ].homeTeam.toLowerCase(),
-              props.tableMatch.rodadas[round].matches[
-                match
-              ].awayTeam.toLowerCase(),
+              props.tableMatch.rodadas[round].matches[match].homeTeam,
+              props.tableMatch.rodadas[round].matches[match].awayTeam,
             ];
             for (let index = 0; index < array.length; index++) {
               const posTeam = teams.map((e) => e.team).indexOf(array[index]);
@@ -221,8 +203,6 @@ export default defineComponent({
           teams[index].goalsScored - teams[index].goalsConceded;
         //calcula os pontos do time
         teams[index].points = teams[index].wins * 3 + teams[index].draw;
-        const element = teams[index];
-        console.log("teste element", element);
       }
 
       return teams;
