@@ -14,10 +14,11 @@
         <PB-input
           class="card__input"
           input-class="text-center text-white"
-          placeholder="0"
+          :placeholder="homeTeamGoals ? homeTeamGoals : 0"
           borderless
           dense
           :type="'number'"
+          :disable="statusGame != 0"
         />
       </div>
 
@@ -27,10 +28,11 @@
         <PB-input
           class="card__input"
           input-class="text-center text-white"
-          placeholder="0"
+          :placeholder="awayTeamGoals ? awayTeamGoals : 0"
           borderless
           dense
           :type="'number'"
+          :disable="statusGame != 0"
         />
         <q-img
           :src="urlflag + awayTeamInitials"
@@ -69,9 +71,13 @@ export default defineComponent({
     awayTeamGoals: {
       type: String,
     },
+    statusGame: {
+      type: String,
+    },
   },
-  setup() {
+  setup(props) {
     const urlflag = "https://countryflagsapi.com/svg/";
+    console.log("teste status", props.statusGame);
     return {
       urlflag,
     };

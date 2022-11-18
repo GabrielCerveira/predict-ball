@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-7 q-pr-xs">
-      <PB-classification />
+      <PB-classification :seed="handleGetEquipUnic()" />
     </div>
     <div class="col-5 column q-gutter-y-md no-wrap q-pl-xs">
       <div
@@ -31,6 +31,9 @@
         :key="match"
         :homeTeamInitials="match.homeTeamInitials"
         :awayTeamInitials="match.awayTeamInitials"
+        :homeTeamGoals="match.homeTeamResult ? match.homeTeamResult.goals : ''"
+        :awayTeamGoals="match.awayTeamResult ? match.awayTeamResult.goals : ''"
+        :statusGame="match.status"
       />
     </div>
   </div>
@@ -64,7 +67,6 @@ export default defineComponent({
 
     const handleGetEquipUnic = () => {
       var home = new Set();
-      var away = new Set();
       const teams = [];
 
       /*team!,
@@ -72,10 +74,10 @@ export default defineComponent({
         games!,
         wins!,
         draw!-,
-        defeats,
-        goalsScored,
-        goalsConceded,
-        balance,*/
+        defeats!,
+        goalsScored!,
+        goalsConceded!,
+        balance!,*/
 
       for (let round = 0; round < props.tableMatch.rodadas.length; round++) {
         for (
@@ -162,11 +164,16 @@ export default defineComponent({
                   : !teams[posTeam].wins
                   ? 0
                   : teams[posTeam].wins;
+
               // adiciona os empates dos times
               teams[posTeam].draw =
                 props.tableMatch.rodadas[round].matches[match].status === 3
-                  ? teams[posTeam].draw + 1
-                  : 0;
+                  ? !teams[posTeam].draw
+                    ? 1
+                    : teams[posTeam].draw + 1
+                  : !teams[posTeam].draw
+                  ? 0
+                  : teams[posTeam].draw;
             }
 
             //Adiciona os gols marcados pelo time da casa
@@ -205,6 +212,19 @@ export default defineComponent({
         }
       }
 
+      for (let index = 0; index < teams.length; index++) {
+        //calcula as derrotas do time
+        teams[index].defeats =
+          teams[index].games - teams[index].draw - teams[index].wins;
+        //calcula o saldo de gols do time
+        teams[index].balance =
+          teams[index].goalsScored - teams[index].goalsConceded;
+        //calcula os pontos do time
+        teams[index].points = teams[index].wins * 3 + teams[index].draw;
+        const element = teams[index];
+        console.log("teste element", element);
+      }
+
       return teams;
     };
 
@@ -213,6 +233,7 @@ export default defineComponent({
     return {
       round,
       handleDefinitionMatch,
+      handleGetEquipUnic,
       matches,
     };
   },
