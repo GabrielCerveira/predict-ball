@@ -34,6 +34,10 @@
         :homeTeamGoals="match.homeTeamResult ? match.homeTeamResult.goals : ''"
         :awayTeamGoals="match.awayTeamResult ? match.awayTeamResult.goals : ''"
         :statusGame="match.status"
+        :idMatch="match.idMatch"
+        :betGoalsHome="match.homeTeamResult ? '' : setBetHome(match.idMatch)"
+        :betGoalsAway="match.homeTeamResult ? '' : setBetAway(match.idMatch)"
+        @emitBet="handleSetBet"
       />
     </div>
   </div>
@@ -43,6 +47,7 @@
 import { defineComponent, ref } from "vue";
 import PBCardGame from "src/components/generic/PBCardGame.vue";
 import PBClassification from "src/components/generic/PBClassification.vue";
+
 export default defineComponent({
   name: "PBCardTable",
   props: {
@@ -54,6 +59,7 @@ export default defineComponent({
   setup(props) {
     const round = ref(1);
     const matches = ref([]);
+    const bets = [];
 
     const handleDefinitionMatch = () => {
       if (
@@ -210,11 +216,45 @@ export default defineComponent({
 
     console.log("teste handleget", handleGetEquipUnic());
 
+    const handleSetBet = (val) => {
+      if (typeof val.idMatch === undefined) {
+        return;
+      } else {
+        const pos = bets.map((e) => e.idMatch).indexOf(val.idMatch);
+
+        if (pos === -1) {
+          bets.push(val);
+        } else {
+          bets[pos] = val;
+        }
+      }
+    };
+
+    const setBetHome = (idMatch) => {
+      const pos = bets.map((e) => e.idMatch).indexOf(idMatch);
+
+      if (pos != -1) {
+        return bets[pos].homeGoals;
+      }
+    };
+
+    const setBetAway = (idMatch) => {
+      const pos = bets.map((e) => e.idMatch).indexOf(idMatch);
+
+      if (pos != -1) {
+        return bets[pos].awayGoals;
+      }
+    };
+
     return {
-      round,
       handleDefinitionMatch,
       handleGetEquipUnic,
+      handleSetBet,
+      setBetHome,
+      setBetAway,
+      round,
       matches,
+      bets,
     };
   },
 });

@@ -17,6 +17,7 @@
           :placeholder="homeTeamGoals ? homeTeamGoals : 0"
           borderless
           dense
+          @blur="verifyBet"
           :type="'number'"
           :disable="statusGame != 0"
           v-model="bets.homeGoals"
@@ -32,6 +33,7 @@
           :placeholder="awayTeamGoals ? awayTeamGoals : 0"
           borderless
           dense
+          @blur="verifyBet"
           :type="'number'"
           :disable="statusGame != 0"
           v-model="bets.awayGoals"
@@ -76,14 +78,36 @@ export default defineComponent({
     statusGame: {
       type: String,
     },
+    idMatch: {
+      type: String,
+    },
+    betGoalsHome: {
+      type: String,
+    },
+    betGoalsAway: {
+      type: String,
+    },
   },
-  setup() {
+  // emits: ["emitBet"],
+  setup(prop, { emit }) {
     const urlflag = "https://countryflagsapi.com/svg/";
     const bets = ref({});
-    console.log("bets", bets.value);
+    bets.value.homeGoals = prop.betGoalsHome ? prop.betGoalsHome : null;
+    bets.value.awayGoals = prop.betGoalsAway ? prop.betGoalsAway : null;
+
+    const verifyBet = () => {
+      if (!bets.value.awayGoals || !bets.value.homeGoals) {
+        return;
+      } else {
+        bets.value.idMatch = prop.idMatch;
+        emit("emitBet", bets.value);
+      }
+    };
+
     return {
       urlflag,
       bets,
+      verifyBet,
     };
   },
 });

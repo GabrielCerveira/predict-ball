@@ -25,6 +25,7 @@ export default defineComponent({
           {
             matches: [
               {
+                idMatch: 1,
                 homeTeam: "Catar",
                 homeTeamInitials: "qat",
                 awayTeam: "Equador",
@@ -43,6 +44,7 @@ export default defineComponent({
                 },
               },
               {
+                idMatch: 2,
                 homeTeam: "Senegal",
                 homeTeamInitials: "sen",
                 awayTeam: "Holanda",
@@ -56,6 +58,7 @@ export default defineComponent({
           {
             matches: [
               {
+                idMatch: 3,
                 homeTeam: "Catar",
                 homeTeamInitials: "qat",
                 awayTeam: "Senegal",
@@ -65,6 +68,7 @@ export default defineComponent({
                 stadium: "Al Thumama",
               },
               {
+                idMatch: 4,
                 homeTeam: "Holanda",
                 homeTeamInitials: "nld",
                 awayTeam: "Equador",
@@ -78,6 +82,7 @@ export default defineComponent({
           {
             matches: [
               {
+                idMatch: 5,
                 homeTeam: "Holanda",
                 homeTeamInitials: "nld",
                 awayTeam: "Catar",
@@ -87,6 +92,7 @@ export default defineComponent({
                 stadium: "Al Bayat",
               },
               {
+                idMatch: 6,
                 homeTeam: "Equador",
                 homeTeamInitials: "ecu",
                 awayTeam: "Senegal",
@@ -105,6 +111,7 @@ export default defineComponent({
           {
             matches: [
               {
+                idMatch: 7,
                 homeTeam: "Suiça",
                 homeTeamInitials: "che",
                 awayTeam: "Camarões",
@@ -123,6 +130,7 @@ export default defineComponent({
                 },
               },
               {
+                idMatch: 8,
                 homeTeam: "Brasil",
                 homeTeamInitials: "bra",
                 awayTeam: "Servia",
@@ -145,6 +153,7 @@ export default defineComponent({
           {
             matches: [
               {
+                idMatch: 9,
                 homeTeam: "Camarões",
                 homeTeamInitials: "cmr",
                 awayTeam: "Servia",
@@ -162,6 +171,7 @@ export default defineComponent({
                 },
               },
               {
+                idMatch: 10,
                 homeTeam: "Brasil",
                 homeTeamInitials: "bra",
                 awayTeam: "Suiça",
@@ -184,6 +194,7 @@ export default defineComponent({
           {
             matches: [
               {
+                idMatch: 11,
                 homeTeam: "Camarões",
                 homeTeamInitials: "cmr",
                 awayTeam: "Brasil",
@@ -202,6 +213,7 @@ export default defineComponent({
                 },
               },
               {
+                idMatch: 12,
                 homeTeam: "Servia",
                 homeTeamInitials: "srb",
                 awayTeam: "Suiça",
