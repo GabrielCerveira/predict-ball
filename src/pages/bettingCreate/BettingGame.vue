@@ -242,7 +242,6 @@ export default defineComponent({
   },
 });
 /*
-
 Status:
 0 = não disputada
 1 = em andamento

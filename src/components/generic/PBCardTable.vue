@@ -35,8 +35,12 @@
         :awayTeamGoals="match.awayTeamResult ? match.awayTeamResult.goals : ''"
         :statusGame="match.status"
         :idMatch="match.idMatch"
-        :betGoalsHome="match.homeTeamResult ? '' : setBetHome(match.idMatch)"
-        :betGoalsAway="match.homeTeamResult ? '' : setBetAway(match.idMatch)"
+        :betGoalsHome="
+          match.homeTeamResult ? '' : setBet(match.idMatch, 'home')
+        "
+        :betGoalsAway="
+          match.homeTeamResult ? '' : setBet(match.idMatch, 'away')
+        "
         @emitBet="handleSetBet"
       />
     </div>
@@ -75,23 +79,13 @@ export default defineComponent({
       var home = new Set();
       const teams = [];
 
-      /*team!,
-        points,
-        games!,
-        wins!,
-        draw!-,
-        defeats!,
-        goalsScored!,
-        goalsConceded!,
-        balance!,*/
-
       for (let round = 0; round < props.tableMatch.rodadas.length; round++) {
         for (
           let match = 0;
           match < props.tableMatch.rodadas[round].matches.length;
           match++
         ) {
-          //
+          // Define o array que será adicionado a const teams
           const array = [
             props.tableMatch.rodadas[round].matches[match].homeTeam,
             props.tableMatch.rodadas[round].matches[match].awayTeam,
@@ -107,35 +101,29 @@ export default defineComponent({
             }
           }
 
+          // recupera a posição no array teams do time da casa
           const pos = teams
             .map((e) => e.team)
             .indexOf(props.tableMatch.rodadas[round].matches[match].homeTeam);
-
+          // recupera a posição no array teams do time visitante
           const posAway = teams
             .map((e) => e.team)
             .indexOf(props.tableMatch.rodadas[round].matches[match].awayTeam);
 
-          ////
-
+          // Adiciona as estaticas das partidas ao array teams
           if (props.tableMatch.rodadas[round].matches[match].status === 0) {
-            if (!teams[pos].games) {
-              teams[pos].games = 0;
-              teams[pos].wins = 0;
-              teams[pos].draw = 0;
-              teams[pos].goalsScored = 0;
-              teams[pos].goalsConceded = 0;
-            } else {
-              teams[pos].games = teams[pos].games + 0;
-              teams[pos].wins = teams[pos].wins + 0;
-              teams[pos].draw = teams[pos].draw + 0;
-              teams[pos].goalsScored = teams[pos].goalsScored + 0;
-              teams[pos].goalsConceded = teams[pos].goalsConceded + 0;
-            }
+            // Adiciona os valores zerados caso a partida não tenha ocorrido
+            teams[pos].games = !teams[pos].games ? 0 : teams[pos].games + 0;
+            teams[pos].wins = !teams[pos].games ? 0 : teams[pos].wins + 0;
+            teams[pos].draw = !teams[pos].games ? 0 : teams[pos].draw + 0;
+            teams[pos].goalsScored = !teams[pos].games
+              ? 0
+              : teams[pos].goalsScored + 0;
+            teams[pos].goalsConceded = !teams[pos].games
+              ? 0
+              : teams[pos].goalsConceded + 0;
           } else {
-            const array = [
-              props.tableMatch.rodadas[round].matches[match].homeTeam,
-              props.tableMatch.rodadas[round].matches[match].awayTeam,
-            ];
+            // Varre o array array adicionando os resultados da partida no array teams
             for (let index = 0; index < array.length; index++) {
               const posTeam = teams.map((e) => e.team).indexOf(array[index]);
               // adiciona as partidas jogadas pelos times
@@ -180,8 +168,7 @@ export default defineComponent({
                 props.tableMatch.rodadas[round].matches[match].awayTeamResult
                   .goals;
 
-            //
-            //Adiciona os gols marcados pelo time da casa
+            //Adiciona os gols marcados pelo time visitante
             teams[posAway].goalsScored = !teams[posAway].goalsScored
               ? props.tableMatch.rodadas[round].matches[match].awayTeamResult
                   .goals
@@ -189,7 +176,7 @@ export default defineComponent({
                 props.tableMatch.rodadas[round].matches[match].awayTeamResult
                   .goals;
 
-            //Adiciona os gols sofridos pelo time da casa
+            //Adiciona os gols sofridos pelo time visitante
             teams[posAway].goalsConceded = !teams[posAway].goalsConceded
               ? props.tableMatch.rodadas[round].matches[match].homeTeamResult
                   .goals
@@ -214,8 +201,7 @@ export default defineComponent({
       return teams;
     };
 
-    console.log("teste handleget", handleGetEquipUnic());
-
+    // Adiciona a bet no array Bets
     const handleSetBet = (val) => {
       if (typeof val.idMatch === undefined) {
         return;
@@ -230,19 +216,15 @@ export default defineComponent({
       }
     };
 
-    const setBetHome = (idMatch) => {
+    // Verifica se aquele joga tem uma bet e retorna os dados
+    const setBet = (idMatch, statusTeam) => {
       const pos = bets.map((e) => e.idMatch).indexOf(idMatch);
-
       if (pos != -1) {
-        return bets[pos].homeGoals;
-      }
-    };
-
-    const setBetAway = (idMatch) => {
-      const pos = bets.map((e) => e.idMatch).indexOf(idMatch);
-
-      if (pos != -1) {
-        return bets[pos].awayGoals;
+        if (statusTeam === "home") {
+          return bets[pos].homeGoals;
+        } else {
+          return bets[pos].awayGoals;
+        }
       }
     };
 
@@ -250,8 +232,7 @@ export default defineComponent({
       handleDefinitionMatch,
       handleGetEquipUnic,
       handleSetBet,
-      setBetHome,
-      setBetAway,
+      setBet,
       round,
       matches,
       bets,

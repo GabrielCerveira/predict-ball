@@ -4,13 +4,11 @@
     <div class="row justify-center">
       <div class="col-4 row q-gutter-xs justify-start">
         <span class="text-h6 text-uppercase">{{ homeTeamInitials }}</span>
-
         <q-img
           :src="urlflag + homeTeamInitials"
           class="card__flag"
           ratio="16/9"
         />
-
         <PB-input
           class="card__input"
           input-class="text-center text-white"
@@ -88,7 +86,6 @@ export default defineComponent({
       type: String,
     },
   },
-  // emits: ["emitBet"],
   setup(prop, { emit }) {
     const urlflag = "https://countryflagsapi.com/svg/";
     const bets = ref({});
